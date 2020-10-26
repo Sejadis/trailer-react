@@ -1,0 +1,7 @@
+.club{
+    display: flex;
+    justify-content: space-around;
+}
+.actionButton {
+    align-items: center;
+}
