@@ -12,9 +12,7 @@ const EventsPage = () => {
         fetchEvents().then(events => setEvents(events))
     }
 
-    useEffect(() => {
-        getEvents()
-    }, [])
+    useEffect(getEvents, [])
 
     return (<>
             <NavBar data={eventsNavigationData}/>

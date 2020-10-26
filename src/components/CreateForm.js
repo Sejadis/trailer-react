@@ -18,6 +18,12 @@ const CreateForm = props => {
             }
         }, [props.type]);
 
+        const handleChange = event => {
+            const {name, value} = event.target
+            console.log(name, value)
+            setFormData({...formData, [name]: value})
+        }
+
         const handleSubmit = (event) => {
             event.preventDefault()
             switch (props.type) {
@@ -34,12 +40,6 @@ const CreateForm = props => {
                             history.push("/events"))
                     break
             }
-        }
-
-        const handleChange = event => {
-            const {name, value} = event.target
-            console.log(name, value)
-            setFormData({...formData, [name]: value})
         }
 
         return (

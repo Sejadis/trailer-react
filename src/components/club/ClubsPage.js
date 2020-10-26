@@ -15,9 +15,7 @@ const ClubsPage = () => {
         fetchClubs().then(clubs => setClubs(clubs))
     }
 
-    useEffect(() => {
-        getClubs()
-    }, [])
+    useEffect(getClubs, [])
 
     return (<>
             <NavBar data={clubsNavigationData}/>
