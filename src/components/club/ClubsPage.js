@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import {deleteClub, fetchClubs} from "../../api";
 import {clubsNavigationData} from "../../data";
-import NavBar from "../NavBar";
+import NavBar from "../common/NavBar";
 import Club from "../club/Club";
 import List from "../common/List";
-import {Route, Switch, useParams} from 'react-router-dom'
+import {Route, useParams} from 'react-router-dom'
 import CreateForm from "../CreateForm";
 
 const ClubsPage = () => {
     const [clubs, setClubs] = useState([])
     const params = useParams()
+
     const getClubs = () => {
         fetchClubs().then(clubs => setClubs(clubs))
     }
+
     useEffect(() => {
         getClubs()
     }, [])

@@ -1,10 +1,9 @@
 import React from 'react'
 import styles from '../../Club.module.css'
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 export default function Club(props) {
     const {id, name, events, trailers} = props.data
-    // const events = props.data.events
     const {deleteElement} = props
     console.log(props.data)
     const history = useHistory()
@@ -16,11 +15,11 @@ export default function Club(props) {
         <div className={styles.club}>
             <p>{id} </p>
             <p>{name}</p>
-            <button className={styles.actionButton} disabled={events.length > 0 ? false : true}
+            <button className={styles.actionButton} disabled={events.length <= 0}
                     onClick={() => history.push("/events/" + id)}>
                 Events
             </button>
-            <button className={styles.actionButton} disabled={trailers.length > 0 ? false : true}
+            <button className={styles.actionButton} disabled={trailers.length <= 0}
                     onClick={() => history.push("/clubs/trailer/" + id)}>
                 Trailer
             </button>

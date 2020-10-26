@@ -1,4 +1,4 @@
-export const navigationData = [
+export const mainNavigationData = [
     {
         ref: "/",
         label: "Home"

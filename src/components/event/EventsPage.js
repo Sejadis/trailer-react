@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {eventsNavigationData} from "../../data";
-import NavBar from "../NavBar";
+import NavBar from "../common/NavBar";
 import {deleteEvent, fetchEvents} from "../../api";
 import List from "../common/List";
 import Event from "../event/Event"
 
 const EventsPage = () => {
     const [events, setEvents] = useState([])
-    const [showDetailsFor, setShowDetailsFor] = useState(undefined);
+
     const getEvents = () => {
         fetchEvents().then(events => setEvents(events))
     }
+
     useEffect(() => {
         getEvents()
     }, [])

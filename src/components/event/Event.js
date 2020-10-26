@@ -16,10 +16,8 @@ export default function Event(props) {
     const handleClick = () => {
         setShowDetails(!showDetails)
     }
-    useEffect(() => {
-        getClub()
-    }, []);
-    // console.log(props.data)
+    useEffect(getClub, []);
+
     return (
         <>
             <div className={styles.club}>
