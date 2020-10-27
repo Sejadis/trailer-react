@@ -19,7 +19,7 @@ const createTemplate = (url, data) => {
 }
 
 const fetchTemplate = (url, id) => {
-    const finalUrl = BASE_URL + url + (id ? id : "")
+    const finalUrl = BASE_URL + url + (id !== undefined ? id : "")
     return fetch(finalUrl)
         .then(resp => resp.json())
 }
@@ -28,7 +28,7 @@ const deleteTemplate = (url, id) => {
     if (id !== undefined) {
         //TODO return something empty
     }
-    const finalUrl = BASE_URL + url + (id ? id : "")
+    const finalUrl = BASE_URL + url + (id !== undefined ? id : "")
     return fetch(finalUrl,
         {method: 'DELETE'})
         .catch(error => console.log(error))
