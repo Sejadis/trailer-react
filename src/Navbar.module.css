@@ -1,6 +1,7 @@
 .navigation {
     background: #81a7ff;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .navigation ul {
@@ -10,14 +11,14 @@
 }
 
 .navigation li {
-    padding: 15px;
-    border-radius: 20%;
+    padding: 10px;
 }
 
 .navigation li:hover {
-    background: #aeb4b9;
+    box-shadow: inset 0 -2px 0 0 #000;
 }
 
 .navigation a {
     text-decoration: none;
+    color:inherit;
 }
