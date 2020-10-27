@@ -1,7 +1,23 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import {fetchUser} from "../../api";
+import {UserContext} from "../../App";
+
 
 const EventDetail = (props) => {
-    const {event} = props
+    const {event, join,leave} = props
+    const [usernames, setUsernames] = useState([]);
+    const user = useContext(UserContext);
+
+    const getUsers = () => {
+        setUsernames([])
+        event.users.forEach(user => {
+            fetchUser(user).then(u => {
+                setUsernames(prev => [...prev, u.username])
+            })
+        })
+    }
+
+    useEffect(getUsers, [event])
     return (
         <div style={{display: "flex", justifyContent: "space-around"}}>
             <table>
@@ -14,8 +30,9 @@ const EventDetail = (props) => {
                 <tr>
                     <td>
                         <ol>
-                            {event.users.map((user) =>
-                                <li key={user.id} value={user.name}/>
+                            {usernames.map((name) => {
+                                    return <li key={name}>{name}</li>
+                                }
                             )}
                         </ol>
                     </td>
@@ -27,6 +44,12 @@ const EventDetail = (props) => {
                 month: "long",
                 day: "2-digit"
             }).format(Date.parse(event.date))}</p>}
+            {user
+            && (event.users.some(e => e === user.id) ?
+                <button onClick={() => leave()}>Leave</button>
+                :
+                <button onClick={join}>Join</button>)
+            }
         </div>
     );
 };

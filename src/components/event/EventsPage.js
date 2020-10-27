@@ -9,15 +9,22 @@ const EventsPage = () => {
     const [events, setEvents] = useState([])
 
     const getEvents = () => {
-        fetchEvents().then(events => setEvents(events))
+        fetchEvents().then(newEvents => setEvents(prev => {
+            return newEvents
+        }))
     }
 
+    const refresh = () => {
+        getEvents()
+    }
     useEffect(getEvents, [])
-
+    // useEffect(() => {
+    //     console.log("Render with ", events)
+    // })
     return (<>
             <NavBar data={eventsNavigationData}/>
             {events.length > 0 ?
-                <List data={events} component={Event} deleteFunction={deleteEvent}/>
+                <List data={events} component={Event} deleteFunction={deleteEvent} refresh={refresh}/>
                 :
                 null}
         </>
