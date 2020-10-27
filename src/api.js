@@ -173,3 +173,20 @@ export const deleteTrailer = (id) => {
 export const createTrailer = (trailer) => {
     return createTemplate("clubs/trailers", trailer)
 }
+//endregion
+
+//region users
+
+export const fetchUsers = () => {
+    return fetchTemplate("users")
+}
+export const fetchUser = (id) => {
+    return fetchTemplate("users/", id)
+}
+export const deleteUser = (id) => {
+    return deleteTemplate("users/", id)
+}
+export const createUser = (club) => {
+    return createTemplate("users", club)
+}
+//endregion
