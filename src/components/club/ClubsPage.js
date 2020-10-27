@@ -6,6 +6,7 @@ import Club from "../club/Club";
 import List from "../common/List";
 import {Route, useParams} from 'react-router-dom'
 import CreateForm from "../CreateForm";
+import Trailer from "../Trailer";
 
 const ClubsPage = () => {
     const [clubs, setClubs] = useState([])
@@ -21,7 +22,7 @@ const ClubsPage = () => {
             <NavBar data={clubsNavigationData}/>
             <Route exact path={"/clubs/create"} render={routeProps => <CreateForm {...routeProps} type={"Club"}/>}/>
             <Route path={"/clubs/trailer/:id?"}>
-                <h1>test</h1>
+                <Trailer/>
             </Route>
             {params.id !== undefined ? <br/> :
                 clubs.length > 0 ?

@@ -5,7 +5,6 @@ import {useHistory} from "react-router-dom";
 export default function Club(props) {
     const {id, name, events, trailers} = props.data
     const {deleteElement} = props
-    console.log(props.data)
     const history = useHistory()
     const handleClick = () => {
 
