@@ -1,5 +1,5 @@
 import {BASE_URL} from './constants'
-
+//region template
 const createTemplate = (url, data) => {
     const body = JSON
         .stringify(data)
@@ -10,7 +10,6 @@ const createTemplate = (url, data) => {
         }
     )
         .then(resp => {
-            console.log(resp.ok)
             return resp.json()
         })
         .catch(error => {
@@ -34,7 +33,9 @@ const deleteTemplate = (url, id) => {
         .catch(error => console.log(error))
 }
 
+//endregion
 
+//region clubs
 // export const fetchClubs = async () => {
 //     return fetch(BASE_URL + "clubs")
 //         .then(resp => resp.json())
@@ -74,9 +75,9 @@ export const deleteClub = (id) => {
 export const createClub = (club) => {
     return createTemplate("clubs", club)
 }
+//endregion
 
-//////////////////////////////////////////////////////////////////////////////
-
+//region events
 // export const fetchEvents = async () => {
 //     return fetch(BASE_URL + "events")
 //         .then(resp => resp.json())
@@ -124,8 +125,23 @@ export const deleteEvent = (id) => {
 export const createEvent = (event) => {
     return createTemplate("events", event)
 }
-//////////////////////////////////////////////////////////////////////////////
 
+export const addUserToEvent = (eventId, userId) => {
+
+    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId, {
+        method: "PUT"
+    }).catch(error => console.log(error))
+}
+
+export const removeUserFromEvent = (eventId, userId) => {
+
+    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId, {
+        method: "DELETE"
+    }).catch(error => console.log(error))
+}
+//endregion
+
+//region trailers
 // export const fetchTrailers = async () => {
 //     return fetch(BASE_URL + "trailers")
 //         .then(resp => resp.json())
