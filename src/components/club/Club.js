@@ -6,20 +6,17 @@ export default function Club(props) {
     const {id, name, events, trailers} = props.data
     const {deleteElement} = props
     const history = useHistory()
-    const handleClick = () => {
-
-    }
 
     return (
         <div className={styles.club}>
             <p>{id} </p>
             <p>{name}</p>
             <button className={styles.actionButton} disabled={events.length <= 0}
-                    onClick={() => history.push("/events/" + id)}>
+                    onClick={() => history.push("/events?club=" + id)}>
                 Events
             </button>
             <button className={styles.actionButton} disabled={trailers.length <= 0}
-                    onClick={() => history.push("/clubs/trailer/" + id)}>
+                    onClick={() => history.push("/trailers?club=" + id)}>
                 Trailer
             </button>
             <button className={styles.actionButton} onClick={() => {

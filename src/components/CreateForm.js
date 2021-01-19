@@ -1,26 +1,42 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {createClub, createEvent, fetchClubs} from "../api";
+import {createClub, createEvent, createUser, fetchClubs, fetchTrailers} from "../api";
+import {UserContext} from "../App";
 
 const CreateForm = props => {
-        const [formData, setFormData] = useState({name: "", date: undefined, club: undefined});
+        const [formData, setFormData] = useState(
+            {
+                name: "",
+                date: undefined,
+                club: undefined,
+                trailer: undefined,
+                password: ""
+            });
         const [formState, setFormState] = useState("");
         const [clubs, setClubs] = useState([]);
+        const [trailers, setTrailers] = useState([]);
+        const userContext = useContext(UserContext);
+
         const {history} = props
 
         const getClubs = () => {
             fetchClubs().then
             (clubs => setClubs(clubs))
         }
+
+        const getTrailers = () => {
+            fetchTrailers().then
+            (trailers => setTrailers(trailers))
+        }
         useEffect(() => {
             if (props.type === "Event") {
                 getClubs()
+                getTrailers()
             }
         }, [props.type]);
 
         const handleChange = event => {
             const {name, value} = event.target
-            console.log(name, value)
             setFormData({...formData, [name]: value})
         }
 
@@ -29,7 +45,7 @@ const CreateForm = props => {
             switch (props.type) {
                 case "Club":
                     setFormState("Creating new club...")
-                    createClub(formData.name).then(() =>
+                    createClub(formData).then(() =>
                         history.push("/clubs")
                     )
                     break
@@ -39,6 +55,13 @@ const CreateForm = props => {
                         .then(() =>
                             history.push("/events"))
                     break
+                case "User":
+                    setFormState("Creating new user...")
+                    createUser(formData).then(() => {
+                            userContext.getUsers()
+                            history.push("/login")
+                        }
+                    )
             }
         }
 
@@ -55,9 +78,21 @@ const CreateForm = props => {
                             <label>
                                 Club
                                 <select name={"club"} onChange={handleChange}>
-                                    <option label={"Select a Club"}/>
+                                    <option label={"Select a Club"} value={""}/>
                                     {clubs.map((club) => {
                                         return <option key={club.id} label={club.name} value={club.id}/>
+                                    })}
+                                </ select>
+                            </label>
+                            <br/>
+                            <label>
+                                Trailer
+                                <select name={"trailer"} onChange={handleChange}>
+                                    <option label={"Select a Trailer"} value={""}/>
+                                    {trailers.map((trailer) => {
+                                        return <option key={trailer.id}
+                                                       label={trailer.name != null && trailer.name !== "" ? trailer.name : trailer.slots}
+                                                       value={trailer.id}/>
                                     })}
                                 </ select>
                             </label>
@@ -67,6 +102,17 @@ const CreateForm = props => {
                                 <input type={"date"} value={formData.date} name={"date"} onChange={handleChange}/>
                             </label>
                             <br/>
+                        </>
+                        :
+                        null
+                    }
+                    {props.type === "User" ?
+                        <>
+                            <label>
+                                Password
+                                <input type={"password"} name={"password"} value={formData.password}
+                                       onChange={handleChange}/>
+                            </label>
                         </>
                         :
                         null
@@ -81,7 +127,7 @@ const CreateForm = props => {
 ;
 
 CreateForm.propTypes = {
-    type: PropTypes.oneOf(["Club", "Event"])
+    type: PropTypes.oneOf(["Club", "Event", "Trailer", "User"])
 };
 
 export default CreateForm;

@@ -36,32 +36,6 @@ const deleteTemplate = (url, id) => {
 //endregion
 
 //region clubs
-// export const fetchClubs = async () => {
-//     return fetch(BASE_URL + "clubs")
-//         .then(resp => resp.json())
-// }
-// export const fetchClub = async (id) => {
-//     return fetch(BASE_URL + "clubs/" + id)
-//         .then(resp => resp.json())
-// }
-// export const deleteClub = (id) => {
-//     return fetch(BASE_URL + "clubs/" + id,
-//         {method: 'DELETE'})
-//         .catch(error => console.log(error))
-// }
-// export const createClub = name => {
-//     return fetch(BASE_URL + "clubs", {
-//             method: 'POST',
-//             body: name
-//         }
-//     )
-//         .then(resp => {
-//             resp.json()
-//         })
-//         .catch(error => {
-//             console.log(error)
-//         })
-// }
 
 export const fetchClubs = () => {
     return fetchTemplate("clubs")
@@ -78,37 +52,6 @@ export const createClub = (club) => {
 //endregion
 
 //region events
-// export const fetchEvents = async () => {
-//     return fetch(BASE_URL + "events")
-//         .then(resp => resp.json())
-// }
-// export const fetchEvent = async (id) => {
-//     return fetch(BASE_URL + "events/" + id)
-//         .then(resp => resp.json())
-// }
-// export const deleteEvent = (id) => {
-//     return fetch(BASE_URL + "events/" + id,
-//         {method: 'DELETE'})
-//         .catch(error => console.log(error))
-// }
-// export const createEvent = (event) => {
-//     console.log(event)
-//     const body = JSON
-//         .stringify(event)
-//     return fetch(BASE_URL + "events", {
-//             method: 'POST',
-//             body: body,
-//             headers: {"Content-Type": "application/json"},
-//         }
-//     )
-//         .then(resp => {
-//             console.log(resp.ok)
-//             return resp.json()
-//         })
-//         .catch(error => {
-//             console.log(error)
-//         })
-// }
 
 export const fetchEvents = () => {
     return fetchTemplate("events")
@@ -116,6 +59,10 @@ export const fetchEvents = () => {
 
 export const fetchEvent = (id) => {
     return fetchTemplate("events/", id)
+}
+
+export const fetchEventsForClub = (clubId) => {
+    return fetchTemplate("events?club=" + clubId)
 }
 
 export const deleteEvent = (id) => {
@@ -126,60 +73,32 @@ export const createEvent = (event) => {
     return createTemplate("events", event)
 }
 
-export const addUserToEvent = (eventId, userId) => {
-
-    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId, {
+export const addUserToEvent = (eventId, userId, type) => {
+const query = (type != null && type !== "") ? ("?type=" + type) : ""
+    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId + query, {
         method: "PUT"
     }).catch(error => console.log(error))
 }
 
-export const removeUserFromEvent = (eventId, userId) => {
-
-    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId, {
+export const removeUserFromEvent = (eventId, userId, type) => {
+    const query = (type != null && type !== "") ? ("?type=" + type) : ""
+    return fetch(BASE_URL + "events/" + eventId + "/users/" + userId + query, {
         method: "DELETE"
     }).catch(error => console.log(error))
 }
 //endregion
 
 //region trailers
-// export const fetchTrailers = async () => {
-//     return fetch(BASE_URL + "trailers")
-//         .then(resp => resp.json())
-// }
-// export const fetchTrailer = async (id) => {
-//     return fetch(BASE_URL + "trailers/" + id)
-//         .then(resp => resp.json())
-// }
-// export const deleteTrailer = (id) => {
-//     return fetch(BASE_URL + "trailers/" + id,
-//         {method: 'DELETE'})
-//         .catch(error => console.log(error))
-// }
-// export const createTrailer = (trailer) => {
-//     console.log(trailer)
-//     const body = JSON
-//         .stringify(trailer)
-//     return fetch(BASE_URL + "clubs/trailers", {
-//             method: 'POST',
-//             body: body,
-//             headers: {"Content-Type": "application/json"},
-//         }
-//     )
-//         .then(resp => {
-//             console.log(resp.ok)
-//             return resp.json()
-//         })
-//         .catch(error => {
-//             console.log(error)
-//         })
-// }
-
 export const fetchTrailers = () => {
     return fetchTemplate("trailers")
 }
 
 export const fetchTrailer = (id) => {
     return fetchTemplate("trailers/", id)
+}
+
+export const fetchTrailersForClub = (clubId) => {
+    return fetchTemplate("trailers?club=" + clubId)
 }
 
 export const deleteTrailer = (id) => {
@@ -202,7 +121,7 @@ export const fetchUser = (id) => {
 export const deleteUser = (id) => {
     return deleteTemplate("users/", id)
 }
-export const createUser = (club) => {
-    return createTemplate("users", club)
+export const createUser = (user) => {
+    return createTemplate("users", user)
 }
 //endregion
