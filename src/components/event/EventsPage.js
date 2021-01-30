@@ -6,7 +6,7 @@ import List from "../common/List";
 import Event from "../event/Event"
 import {Route, useLocation} from "react-router-dom";
 import {useHistory} from "react-router";
-import CreateForm from "../CreateForm";
+import EventCreateForm from "./EventCreateForm";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search)
@@ -68,16 +68,15 @@ const EventsPage = ({location}) => {
     }
 
     useEffect(getEvents, [clubId, pathName])
-    // useEffect(() => {
-    //     console.log("Render with ", events)
-    // })
 
     return <>
         <NavBar data={eventsNavigationData}/>
-        <Route exact path={"/events/create"} render={routeProps => <CreateForm {...routeProps} type={"Event"}/>}/>
-        <label>
+        <Route exact path={"/events/create"} render={renderProps => {
+            return <EventCreateForm/>
+        }}/>
+        <label style={{display:"flex", justifyContent: "space-around", padding: "5px"}}>
             Search:
-            <input type={"text"} onChange={handleChange} value={searchFilter}/>
+            <input style={{width: "90%"}} type={"text"} onChange={handleChange} value={searchFilter}/>
         </label>
         {events.length > 0 ?
             <List data={getFilteredEvents()} component={Event} deleteFunction={deleteEvent} refresh={refresh}/>

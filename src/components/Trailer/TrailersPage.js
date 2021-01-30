@@ -54,7 +54,7 @@ const TrailersPage = ({location}) => {
 
                 return nameMatch || slotMatch
                 //||
-                ////TODO club currently is only id so cant filter by name
+                ////TODO club is currently only id so cant filter by name
                 //e.club.toLowerCase().includes(lowerCaseFilter)
             }))
             console.log(filteredTrailers)
@@ -75,16 +75,13 @@ const TrailersPage = ({location}) => {
         }
     }
 
-    useEffect(getTrailers, [clubId,pathName])
-    // useEffect(() => {
-    //     console.log("Render with ", trailer)
-    // })
+    useEffect(getTrailers, [clubId, pathName])
 
     return <>
         <NavBar data={trailersNavigationData}/>
-        <label>
+        <label style={{display:"flex", justifyContent: "space-around", padding: "5px"}}>
             Search:
-            <input type={"text"} onChange={handleChange} value={searchFilter}/>
+            <input style={{width: "90%"}} type={"text"} onChange={handleChange} value={searchFilter}/>
         </label>
         <Route path={"/trailers/create"} render={renderProps => {
             return <TrailerCreateForm/>

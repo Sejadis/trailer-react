@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {fetchUser} from "../../api";
 import {UserContext} from "../../App";
-
+import styles from '../../styles/Event.module.css'
 
 const EventDetail = (props) => {
-    const {event, join, leave, confirmTrailerCarrier, openSlots} = props
+    const {event, join, leave, openSlots} = props
     const [users, setUsers] = useState([]);
     const userContext = useContext(UserContext);
     const user = userContext.user
@@ -40,16 +40,16 @@ const EventDetail = (props) => {
             })
             if (matchingUser !== undefined) {
                 return <>
-                    <p>{matchingUser.username}</p>
                     {user && user.id == matchingUser.id ?
-                        <button onClick={() => leave("bring")}>Leave</button>
+                        <button style={{backgroundColor: "#c84646"}} onClick={() => leave("bring")}>Leave</button>
                         :
                         null
                     }
+                    <p>{matchingUser.username}</p>
                 </>
             }
         }
-        return <button onClick={() => join("bring")}>Confirm</button>
+        return <button style={{backgroundColor: "#5b7e5b"}} onClick={() => join("bring")}>Confirm</button>
     }
 
     const returnState = () => {
@@ -59,31 +59,38 @@ const EventDetail = (props) => {
             })
             if (matchingUser !== undefined) {
                 return <>
-                    <p>{matchingUser.username}</p>
                     {user && user.id == matchingUser.id ?
-                        <button onClick={() => leave("return")}>Leave</button>
+                        <button style={{backgroundColor: "#c84646"}} onClick={() => leave("return")}>Leave</button>
                         :
                         null
                     }
+                    <p>{matchingUser.username}</p>
                 </>
             }
         }
-        return <button onClick={() => join("return")}>Confirm</button>
+        return <button style={{backgroundColor: "#5b7e5b"}} onClick={() => join("return")}>Confirm</button>
     }
 
     useEffect(getUsers, [event])
 
-    const buttonStyle = {
-        height: "50px",
-        width: "50px"
-    }
-
     return (
-        <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div className={styles.detail}>
             <table>
                 <thead>
                 <tr>
                     <th>Participants</th>
+                    <th>
+                        {user
+                        && (event.users.some(e => e === user.id) ?
+                            <button style={{backgroundColor: "#c84646"}} onClick={() => leave()}>Leave</button>
+                            :
+                            (openSlots > 0 ?
+                                    <button style={{backgroundColor: "#5b7e5b"}} onClick={() => join()}>Join</button>
+                                    :
+                                    <p>(No open slots left)</p>
+                            ))
+                        }
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -102,27 +109,28 @@ const EventDetail = (props) => {
                 </tr>
                 </tbody>
             </table>
-            <div>
-                <p style={{backgroundColor: "#EEE"}}>Bring</p>
-                {bringState()}
-                <p style={{backgroundColor: "#EEE"}}>Return</p>
-                {returnState()}
+            <div style={{display: "flex", flexDirection: "column"}}>
+                <div style={{alignSelf: "center"}}>
+                    <p>Trailer</p>
+                </div>
+                <div style={{display: "flex"}}>
+
+                    <div style={{margin: "5px"}}>
+                        <p style={{margin: "0px", backgroundColor: "#EEE"}}>Bring</p>
+                        {bringState()}
+                    </div>
+                    <div style={{margin: "5px"}}>
+                        <p style={{margin: "0px", backgroundColor: "#EEE"}}>Return</p>
+                        {returnState()}
+                    </div>
+                </div>
             </div>
             {event.date && <p>{new Intl.DateTimeFormat("de-DE", {
                 year: "numeric",
                 month: "long",
                 day: "2-digit"
             }).format(Date.parse(event.date))}</p>}
-            {user
-            && (event.users.some(e => e === user.id) ?
-                <button style={{...buttonStyle, backgroundColor: "#c84646"}} onClick={() => leave()}>Leave</button>
-                :
-                (openSlots > 0 ?
-                        <button style={{...buttonStyle, backgroundColor: "#5b7e5b"}} onClick={() => join()}>Join</button>
-                        :
-                        null
-                ))
-            }
+
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
-import styles from '../../Club.module.css'
+import styles from '../../styles/Event.module.css'
 import {addUserToEvent, fetchClub, fetchTrailers, removeUserFromEvent} from "../../api";
 import EventDetail from "./EventDetail";
 import {UserContext} from "../../App";
@@ -48,11 +48,7 @@ export default React.memo(function Event(props) {
         const open = total - users.length
         setSlots({open, total})
     }, [trailers, eventTrailers, users])
-    // useEffect(getTrailers, [])
 
-    // useEffect(()=>{
-    //     console.count("rerender event")
-    // })
     const formatSlots = () => {
         let string = users.length + " / "
         let slots = trailers.reduce((prev, curr) => {
@@ -63,22 +59,30 @@ export default React.memo(function Event(props) {
     }
     return (
         <>
-            <div className={styles.club}>
-                <p>{id} </p>
-                <p>{name}</p>
-                <Link to={"/events?club=" + club.id}>{club.name}</Link>
-                <p>{users.length + " / " + slots.total}</p>
-                <button className={styles.actionButton} onClick={handleClick}>
-                    Details
-                </button>
-                <button className={styles.actionButton} onClick={() => {
-                    deleteElement(id).then(() => refresh(""))
-                }}>
-                    Delete
-                </button>
+            <div className={showDetails ? styles.mainActive : styles.mainInactive}>
+                <div className={styles.top}>
+                    {/*<p>{id} </p>*/}
+                    <p>{name} (
+                        <Link to={"/events?club=" + club.id} style={{alignSelf: "center"}}>{club.name}</Link>
+                        )
+                    </p>
+
+                </div>
+                <div className={styles.bottom}>
+                    <p style={{background: user && users.some(e => e === user.id) ? "#3DBB28": "#993737"}}>{users.length + " / " + slots.total}</p>
+                    <button className={styles.actionButton} onClick={handleClick}>
+                        Details
+                    </button>
+                    <button className={styles.actionButton} onClick={() => {
+                        deleteElement(id).then(() => refresh(""))
+                    }}>
+                        Delete
+                    </button>
+                </div>
+
             </div>
 
-            {showDetails && <><br/> <EventDetail event={props.data} join={addUser} leave={removeUser} openSlots={slots.open}/></>}
+            {showDetails && <><EventDetail event={props.data} join={addUser} leave={removeUser} openSlots={slots.open}/></>}
         </>
     )
 })

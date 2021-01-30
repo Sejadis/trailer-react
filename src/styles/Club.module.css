@@ -1,0 +1,21 @@
+.club {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: #68b96f;
+}
+
+.actionButton {
+    align-items: center;
+    justify-content: center;
+}
+.top {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

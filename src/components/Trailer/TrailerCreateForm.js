@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {createTrailer, fetchClubs} from "../../api";
 import {useHistory} from "react-router";
+import styles from "../../styles/CreateForm.Module.css";
 
 const TrailerCreateForm = () => {
     const [formData, setFormData] = useState({name: undefined, slots: undefined, club: undefined});
@@ -40,33 +41,35 @@ const TrailerCreateForm = () => {
         }
     }
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Name
-                    <input type={"text"} name={"name"} value={formData.name} onChange={handleChange}/>
-                </label>
-                <label>
-                    Slots
-                    <input type={"number"} name={"slots"} value={formData.slots} onChange={handleChange}/>
-                </label>
-                <>
+        <div className={styles.overlay}>
+            <div className={styles.overlayBackground} onClick={history.goBack}/>
+            <div className={styles.overlayContent}>
+                <form onSubmit={handleSubmit}>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <label className={styles.formItem}>
+                            Name
+                            <input className={styles.formInput} type={"text"} name={"name"} value={formData.name} onChange={handleChange}/>
+                        </label>
+                        <label className={styles.formItem}>
+                            Slots
+                            <input className={styles.formInput} type={"number"} name={"slots"} value={formData.slots} onChange={handleChange}/>
+                        </label>
+                        <label className={styles.formItem}>
+                            Club
+                            <select className={styles.formInput} name={"club"} onChange={handleChange}>
+                                <option label={"Select a Club"} value={""}/>
+                                {clubs.map((club) => {
+                                    return <option key={club.id} label={club.name} value={club.id}/>
+                                })}
+                            </ select>
+                        </label>
+                    </div>
                     <br/>
-                    <label>
-                        Club
-                        <select name={"club"} onChange={handleChange}>
-                            <option label={"Select a Club"} value={""}/>
-                            {clubs.map((club) => {
-                                return <option key={club.id} label={club.name} value={club.id}/>
-                            })}
-                        </ select>
-                    </label>
-                    <br/>
-                </>
-                <button>Submit
-                </button>
-            </form>
-        </>
+                    <button type="submit">Submit</button>
+                    <button type="button" onClick={history.goBack}>Cancel</button>
+                </form>
+            </div>
+        </div>
     );
 };
 

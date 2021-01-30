@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {createClub, createEvent, createUser, fetchClubs, fetchTrailers} from "../api";
 import {UserContext} from "../App";
+import styles from "../styles/CreateForm.Module.css"
+import PropTypes from 'prop-types'
 
 const CreateForm = props => {
         const [formData, setFormData] = useState(
@@ -66,62 +67,67 @@ const CreateForm = props => {
         }
 
         return (
-            <>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Name
-                        <input type={"text"} name={"name"} value={formData.name} onChange={handleChange}/>
-                    </label>
-                    {props.type === "Event" ?
-                        <>
-                            <br/>
-                            <label>
-                                Club
-                                <select name={"club"} onChange={handleChange}>
-                                    <option label={"Select a Club"} value={""}/>
-                                    {clubs.map((club) => {
-                                        return <option key={club.id} label={club.name} value={club.id}/>
-                                    })}
-                                </ select>
+            <div className={styles.overlay}>
+                <div className={styles.overlayBackground} onClick={history.goBack}/>
+                <div className={styles.overlayContent}>
+
+                    <form onSubmit={handleSubmit}>
+                        <div style={{display: "flex", flexDirection: "column"}}>
+                            <label className={styles.formItem}>
+                                Name
+                                <input className={styles.formInput} type={"text"} name={"name"} value={formData.name} onChange={handleChange}/>
                             </label>
-                            <br/>
-                            <label>
-                                Trailer
-                                <select name={"trailer"} onChange={handleChange}>
-                                    <option label={"Select a Trailer"} value={""}/>
-                                    {trailers.map((trailer) => {
-                                        return <option key={trailer.id}
-                                                       label={trailer.name != null && trailer.name !== "" ? trailer.name : trailer.slots}
-                                                       value={trailer.id}/>
-                                    })}
-                                </ select>
-                            </label>
-                            <br/>
-                            <label>
-                                Date
-                                <input type={"date"} value={formData.date} name={"date"} onChange={handleChange}/>
-                            </label>
-                            <br/>
-                        </>
-                        :
-                        null
-                    }
-                    {props.type === "User" ?
-                        <>
-                            <label>
-                                Password
-                                <input type={"password"} name={"password"} value={formData.password}
-                                       onChange={handleChange}/>
-                            </label>
-                        </>
-                        :
-                        null
-                    }
-                    <button>Submit
-                    </button>
-                </form>
-                <h4>{formState}</h4>
-            </>
+                            {props.type === "Event" ?
+                                <>
+                                    <label className={styles.formItem}>
+                                        Club
+                                        <select className={styles.formInput} name={"club"} onChange={handleChange}>
+                                            <option label={"Select Club"} value={""}/>
+                                            {clubs.map((club) => {
+                                                return <option key={club.id} label={club.name} value={club.id}/>
+                                            })}
+                                        </ select>
+                                    </label>
+                                    <label className={styles.formItem}>
+                                        Trailer
+                                        <select className={styles.formInput} name={"trailer"} onChange={handleChange}>
+                                            <option label={"Select Trailer"} value={""}/>
+                                            {trailers.map((trailer) => {
+                                                return <option key={trailer.id}
+                                                               label={trailer.name != null && trailer.name !== "" ? trailer.name : trailer.slots}
+                                                               value={trailer.id}/>
+                                            })}
+                                        </ select>
+                                    </label>
+                                    <label className={styles.formItem}>
+                                        Date
+                                        <input className={styles.formInput} type={"date"} value={formData.date} name={"date"} onChange={handleChange}/>
+                                    </label>
+
+                                </>
+                                :
+                                null
+                            }
+                            {props.type === "User" ?
+                                <>
+                                    <label>
+                                        Password
+                                        <input className={styles.formInput} type={"password"} name={"password"} value={formData.password}
+                                               onChange={handleChange}/>
+                                    </label>
+                                </>
+                                :
+                                null
+                            }
+                        </div>
+                        <br/>
+                        <button type="submit">Submit</button>
+                        <button type="button" onClick={history.goBack}>Cancel</button>
+                    </form>
+                    <h4>{formState}</h4>
+
+                </div>
+            </div>
         );
     }
 ;

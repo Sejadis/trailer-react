@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {fetchClub} from "../../api";
-import styles from "../../Club.module.css";
-import {Route} from "react-router-dom";
-import CreateForm from "../CreateForm";
+import styles from "../../styles/Trailer.Module.css";
 
 const Trailer = (props) => {
     const {id, slots, name, club: clubId, events} = props.data
@@ -21,25 +19,17 @@ const Trailer = (props) => {
 
     useEffect(getClub, [clubId])
 
-    const getDisplayName = (trailer) => {
-        const slotsString = " (" + slots + " Slots)"
-        if (name != null && name !== "") {
-            return name + slotsString
-        } else {
-            return slotsString
-        }
-    }
-
     return (
-        <>
-            <div style={{display: "flex", justifyContent: "space-between"}}>
-                <p>{id}</p>
+        <div className={styles.trailer}>
+            <div className={styles.top}>
                 <p>{name}</p>
-                <p>{slots}</p>
+                <p>{slots} Slots</p>
+            </div>
+            <div className={styles.bottom}>
                 {club != null ? <p>{club.name}</p> : null}
                 <p>{events.length + " Events"}</p>
                 <button className={styles.actionButton} onClick={() => {
-                    if(events.length > 0){
+                    if (events.length > 0) {
                         console.log("cascading trailer delete for events" + events)
                     }
                     deleteElement(id).then(() => refresh(null))
@@ -47,15 +37,7 @@ const Trailer = (props) => {
                     Delete
                 </button>
             </div>
-            {/*{club && <p>Belongs to {club.name}</p>}*/}
-            {/*{club && club.trailers && <ul>*/}
-            {/*    {club.trailers.map(trailer => {*/}
-            {/*        return <li key={trailer.id}>*/}
-            {/*            <p>{getDisplayName(trailer)}</p>*/}
-            {/*        </li>*/}
-            {/*    })}*/}
-            {/*</ul>}*/}
-        </>
+        </div>
     )
 }
 

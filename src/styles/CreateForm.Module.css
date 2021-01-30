@@ -1,0 +1,37 @@
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+
+}
+
+.overlayBackground {
+    background: #5d5a5d;
+    opacity: 70%;
+    height: 100%;
+    width: 100%;
+}
+
+.overlayContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 50px;
+}
+
+.formItem {
+    display: flex;
+    justify-content: space-Between;
+    padding: 5px;
+}
+
+.formInput{
+    width: 50%;
+}
+.background {
+    background: #5d5a5d;
+}
